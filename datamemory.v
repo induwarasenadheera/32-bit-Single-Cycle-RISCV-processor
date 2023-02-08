@@ -16,6 +16,7 @@ module datamemory (
       data_out = mem[address];
   end
 
+//  for storing instructions 
 //  initial begin
 //    for (int i = 0; i < 1024; i = i + 1)
 //      mem[i] = i;
