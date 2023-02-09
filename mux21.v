@@ -6,9 +6,9 @@ module mux21( D0, D1, S, Y);
 	begin
 
 		if(S) 
-			Y= D1;
+			Y<= D1;
 		else
-			Y= D0;
+			Y<= D0;
 
 	end
 

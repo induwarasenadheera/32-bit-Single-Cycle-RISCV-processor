@@ -1,0 +1,22 @@
+{
+	"system" : {
+		"platform" : "windows64",
+		"os_name" : "Windows 10",
+		"os_version" : "10.0"
+	},
+	"error" : {
+		"executable" : "quartus",
+		"comment" : "not_applicable",
+		"error_message" : "Access Violation at 0X00007FFF0B3F35E3",
+		"source_file" : "unknown",
+		"line" : "0",
+		"stack_trace" : "\t0x7fff0b3f35e2: MMDevAPI + 0x235e2 (Ordinal14 + 0x3872)\n\t0x7fff0b3eff07: MMDevAPI + 0x1ff07 (Ordinal14 + 0x197)\n\t0x7fff0b3e5ebd: MMDevAPI + 0x15ebd (Ordinal16 + 0xfa9d)\n\t0x7fff2121eb82: ntdll + 0x4eb82 (TpReleaseWork + 0x472)\n\t0x7fff21206055: ntdll + 0x36055 (RtlClearThreadWorkOnBehalfTicket + 0x965)\n\t0x7fff1fee26bc: KERNEL32 + 0x126bc (BaseThreadInitThunk + 0x1c)\n\t0x7fff2122dfb7: ntdll + 0x5dfb7 (RtlUserThreadStart + 0x27)\n",
+		"subsystem" : "unknown"
+	},
+	"quartus" : {
+		"quartus_bits" : "64",
+		"version" : "17.0.0",
+		"build" : "595",
+		"edition" : "Lite Edition"
+	}
+}
