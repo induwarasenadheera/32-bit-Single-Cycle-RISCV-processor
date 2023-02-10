@@ -4,8 +4,8 @@ input is 26 bits and the input is shifeted by two bits to increase the value by 
 */
 
 module shifter(inp,out);
-    input [26-1:0] inp;
-    output reg [28-1:0] out;
+    input [31:0] inp;
+    output reg [31:0] out;
     
     always @(inp)
     begin
