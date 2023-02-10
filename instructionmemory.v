@@ -1,41 +1,49 @@
-module instructionmemory (
-	 input clk,
-	 input write_en,
-	 input [31:0] instr_in,
-    input [31:0] address,
-    output reg [31:0] instr,
-	 output reg [6:0] opcode,
-	 output reg [4:0] rd,
-	 output reg [4:0] rs1,
-	 output reg [4:0] rs2,
-	 output reg [2:0] func3,
-	 output reg [6:0] func7
-    );
-reg [31:0] mem [511:0];
-initial
-begin
-//	mem[0] = 32'h00000033;
-//	mem[1] = 32'h00400033;
-//	mem[2] = 32'h00c0c033;
-//	mem[3] = 32'h00e0e033;
-//	mem[4] = 32'h01000000;
-//	mem[5] = 32'h01400000;
+`timescale 1ns / 1ps
+module InstrMem(addr, reset, instruction);
+    
+   input reset;
+	input [31:0] addr;
+	output [31:0] instruction;
+	reg [31:0] Imem [31:0];
+	
+	integer i;
+	wire [29:0] shifted_addr;
+	assign shifted_addr= addr[31:2];
 
-//$readmemh("mem1file.dat",mem1);
-end
+	always @(posedge reset) begin
 
-always @(posedge clk) begin
-	if (write_en == 1)
-		mem[address] = instr_in;
-	else
-		instr = mem[address];
-		opcode = instr[6:0];
-		rd = instr[11:7];
-		rs1 = instr[14:12];
-		rs2 = instr[19:15];
-		func3 = instr[24:20];
-		func7 = instr[31:25];
-end
+        Imem[1] <= 32'b0000000_01010_00000_000_00100_0010011;   //      ADDI x4, x0, 10                                                                                        //sort : 
+        Imem[2] <= 32'b0000001_00000_00100_000_11100_1100011;   //      BEQ x4, x0, Load
+        Imem[3] <= 32'b1111111_11111_00100_000_00100_0010011;   //      ADDI x4, x4, -1
+        Imem[4] <= 32'b0000001_00100_00000_000_00101_0010011;   //      ADDI x5, x0, 36
+        Imem[5] <= 32'b1111111_11100_00101_000_00110_0010011;   //      ADDI x6, x5, -4                                                                                      //Itr : 
+        Imem[6] <= 32'b1111111_00000_00101_000_10001_1100011;   //      BEQ x5, x0, Sort 
+        Imem[7] <= 32'b0000000_00000_00101_010_00111_0000011;   //      LW x7, 0(x5)        
+        Imem[8] <= 32'b0000000_00000_00110_010_01000_0000011;   //      LW x8, 0(x6)        
+        Imem[9] <= 32'b0000000_00111_01000_010_01001_0110011;   //      SLT x9, x8, x7      
+        Imem[10] <= 32'b0000000_00000_01001_001_01100_1100011;   //      BNE x9, x0                                                                               //Swap :                    
+        Imem[11] <= 32'b0000000_01000_00101_010_00000_0100011;   //      SW x8, 0(x5)        
+        Imem[12] <= 32'b0000000_00111_00110_010_00000_0100011;   //      SW x7, 0(x6)                            
+        Imem[13] <= 32'b1111111_11100_00101_000_00101_0010011;   //      ADDI x5, x5, -4     
+        Imem[14] <= 32'b1111111_11100_00101_000_00110_0010011;   //      ADDI x6, x5, -4     
+        Imem[15] <= 32'b1111110_11101_11111_111_01010_1101111;   //      JAL x10, Itr      
+        Imem[16] <= 32'b0000000_00000_00000_010_00001_0000011;   //      LW x1, 0(x0)
+        Imem[17] <= 32'b0000000_00100_00000_010_00010_0000011;   //      LW x2, 4(x0)
+        Imem[18] <= 32'b0000000_01000_00000_010_00011_0000011;   //      LW x3, 8(x0)
+        Imem[19] <= 32'b0000000_01100_00000_010_00100_0000011;   //      LW x4, 12(x0)
+        Imem[20] <= 32'b0000000_10000_00000_010_00101_0000011;   //      LW x5, 16(x0)
+        Imem[21] <= 32'b0000000_10100_00000_010_00110_0000011;   //      LW x6, 20(x0)
+        Imem[22] <= 32'b0000000_11000_00000_010_00111_0000011;   //      LW x7, 24(x0)
+        Imem[23] <= 32'b0000000_11100_00000_010_01000_0000011;   //      LW x8, 28(x0)
+        Imem[24] <= 32'b0000001_00000_00000_010_01001_0000011;   //      LW x9, 32(x0)
+        Imem[25] <= 32'b0000001_00100_00000_010_01010_0000011;   //      LW x10, 36(x0)
+        
+	for (i = 26; i < 31; i = i + 1) begin
+            Imem[i] <= 32'h0000_0000;
+        end
+    end
+    
+	 assign instruction = Imem[shifted_addr];
 
 
 endmodule
