@@ -25,51 +25,51 @@ module ALUcontrol (instr,alu_op,operation,ALU_En,equal_comp,mem);
 		//flag_control={alu_op[0]}&{alu_op[1]};
 		if (ALU_En=='b0)
 		begin
-		equal_comp=00;
-		mem=000;
+		equal_comp=2'b00;
+		mem=3'b000;
 		case (alu_op)
 		2'b00: //Rtype
 			begin 
 				case(funct)
 				4'b0000:
 					begin
-						operation <= 0010;
+						operation <= 4'b0010;
 					end
 				4'b0001:
 					begin
-						operation <= 0110;
+						operation <= 4'b0110;
 					end
 				4'b1000:
 					begin
-						operation <= 0011;
+						operation <= 4'b0011;
 					end
 				4'b1100:
 					begin
-						operation <= 0001;
+						operation <= 4'b0001;
 					end
 				4'b1110:
 					begin
-						operation <= 0000;
+						operation <= 4'b0000;
 					end
 				4'b0010:
 					begin
-						operation <= 0100;
+						operation <= 4'b0100;
 					end
 				4'b1010:
 					begin
-						operation <= 1000;
+						operation <= 4'b1000;
 					end
 				4'b1011:
 					begin
-						operation <= 1001;
+						operation <= 4'b1001;
 					end
 				4'b0100:
 					begin
-						operation <= 0101;
+						operation <= 4'b0101;
 					end
 				4'b0110:
 					begin
-						operation <= 0111;
+						operation <= 4'b0111;
 					end
 					
 					endcase
@@ -79,30 +79,30 @@ module ALUcontrol (instr,alu_op,operation,ALU_En,equal_comp,mem);
 			case(funct3)
 			3'b000:
 				begin
-					operation <= 0010;
+					operation <= 4'b0010;
 				end
 			3'b100:
 				begin
-					operation <= 0011;
+					operation <= 4'b0011;
 				end
 			3'b110:
 				begin
-					operation <= 0001;
+					operation <= 4'b0001;
 				end
 			3'b111:
 				begin
-					operation <= 0000;
+					operation <= 4'b0000;
 				end
 			3'b001:
 				begin
-					operation <= 0100;
+					operation <= 4'b0100;
 				end
 			3'b101:
 			begin
 				if (instr[30]==0)
-					operation <= 1000;
+					operation <= 4'b1000;
 				else
-					operation <= 1001;
+					operation <= 4'b1001;
 			end
 			
 			endcase
@@ -114,28 +114,28 @@ module ALUcontrol (instr,alu_op,operation,ALU_En,equal_comp,mem);
 				case(funct3)
 				3'b000:
 				begin
-					operation <= 0010;
-					mem<=001;
+					operation <= 4'b0010;
+					mem<=3'b001;
 				end
 				3'b001:
 				begin
-					operation <= 0010;
-					mem<=010;
+					operation <= 4'b0010;
+					mem<=3'b010;
 				end
 				3'b010:
 				begin
-					operation <= 0010;
-					mem<=011;
+					operation <= 4'b0010;
+					mem<=3'b011;
 				end
 				3'b100:
 				begin
-					operation <= 0010;
-					mem<=101;
+					operation <= 4'b0010;
+					mem<=3'b101;
 				end
 				3'b101:
 				begin
-					operation <= 0010;
-					mem<=011;
+					operation <= 4'b0010;
+					mem<=3'b011;
 				end
 				
 				endcase
@@ -146,33 +146,33 @@ module ALUcontrol (instr,alu_op,operation,ALU_En,equal_comp,mem);
 				case(funct3)
 				3'b000:
 				begin
-					operation <= 0011;
-					equal_comp <=11;
+					operation <= 4'b0011;
+					equal_comp <=2'b11;
 				end
 				3'b001:
 				begin
-					operation <= 0011;
-					equal_comp <=10;
+					operation <= 4'b0011;
+					equal_comp <=2'b10;
 				end
 				3'b100:
 				begin
-					operation <= 0101;
-					equal_comp <=11;
+					operation <= 4'b0101;
+					equal_comp <=2'b11;
 				end
 				3'b101:
 				begin
-					operation <= 0101;
-					equal_comp<=10;
+					operation <= 4'b0101;
+					equal_comp<=2'b10;
 				end
 				3'b110:
 				begin
-					operation <= 0111;
-					equal_comp <=11;
+					operation <= 4'b0111;
+					equal_comp <=2'b11;
 				end
 				3'b111:
 				begin
-					operation <= 0111;
-					equal_comp <=10;
+					operation <= 4'b0111;
+					equal_comp <=2'b10;
 				end
 				
 				endcase
