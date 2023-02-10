@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 
-module controller(inSrc,reg_w,mem_w,mem_r,branch,ALUSRC,ALU0,ALU1,J_Type,ALU_En);
+module controller(inSrc,reg_w,mem_w,mem_r,branch,ALUSRC,ALU0,ALU1,J_Type,ALU_En,mem_reg);
     input [6:0] inSrc;
-    output reg  reg_w,mem_r,mem_w,branch,ALUSRC,ALU0,ALU1,J_Type,ALU_En;
+    output reg  reg_w,mem_r,mem_w,branch,ALUSRC,ALU0,ALU1,J_Type,ALU_En,mem_reg;
 always @ (inSrc)
 begin
     case(inSrc)
@@ -17,6 +17,7 @@ begin
         ALU1  <='b0;
         J_Type<='b0;
         ALU_En<='b0;
+        mem_reg<='b0;
     end
 
     7'b0010011://I type arithmatic and logical
@@ -30,6 +31,7 @@ begin
         ALU1  <='b1;
         J_Type<='b0;
         ALU_En<='b0;
+        mem_reg<='b0;
     end
     7'b0000011:// Load
     begin
@@ -42,6 +44,7 @@ begin
         ALU1  <='b0;
         J_Type<='b0;
         ALU_En<='b0;
+        mem_reg<='b0;
     end
     7'b0100011://Store
     begin
@@ -54,6 +57,7 @@ begin
         ALU1  <='b0;
         J_Type<='b0;
         ALU_En<='b0;
+        mem_reg<='b1;
     end
     7'b1100011://Branch
     begin
@@ -66,6 +70,7 @@ begin
         ALU1  <='b1;
         J_Type<='b0;
         ALU_En<='b0;
+        mem_reg<='b0;
     end
     7'b1101111://Jump and Link
     begin
@@ -76,6 +81,7 @@ begin
         ALUSRC<='b0;
         J_Type<='b1;
         ALU_En<='b1;
+        mem_reg<='b0;
     end
     7'b0110111://Lui
     begin
@@ -86,6 +92,7 @@ begin
         ALUSRC<='b1;
         J_Type<='b0;
         ALU_En<='b1;
+        mem_reg<='b0;
     end
     7'b0010111:
     begin
@@ -96,6 +103,7 @@ begin
         ALUSRC<='b0;
         J_Type<='b0;
         ALU_En<='b1;
+        mem_reg<='b0;
         end
 
     default:
@@ -107,6 +115,7 @@ begin
         ALUSRC<='b0;
         J_Type<='b0;
         ALU_En<='b1;
+        mem_reg<='b0;
     end
 endcase
 end
