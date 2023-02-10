@@ -1,15 +1,5 @@
-module mux21( D0, D1, S, Y);
-	input wire D0, D1, S;
-	output reg Y;
+`timescale 1ns / 1ps
 
-	always @(D0 or D1 or S)
-	begin
-
-		if(S) 
-			Y<= D1;
-		else
-			Y<= D0;
-
-	end
-
+module MUX(input [31:0] D0, input [31:0] D1, input select, output [31:0] SelData);
+    assign SelData = (select == 0) ? D0 : D1;
 endmodule
