@@ -7,8 +7,8 @@ module PC(
     output reg [19:0] currPC
     );
     
-    always @ (posedge clk or posedge reset) begin
-        if (reset) begin
+    always @ (posedge clk or posedge reset_n) begin
+        if (reset_n) begin
             currPC <= 0;
         end
         else begin
