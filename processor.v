@@ -39,7 +39,7 @@ module processor(clk,PCreset,Instruct);
 
     wire [31:0] ReadRegData2_Immediate;
 
-    mux21 regImm(ReadRegData1,Immediate,ALUSRC,ReadRegData2_Immediate);
+    mux21 regImm(ReadRegData2,Immediate,ALUSRC,ReadRegData2_Immediate);
 
     wire [3:0] operation;
     wire [1:0] equal_comp;
@@ -50,6 +50,12 @@ module processor(clk,PCreset,Instruct);
     wire [31:0] ALUResult;
     alu alu(ReadRegData1,ReadRegData2_Immediate,operation,ALUResult,zero,equal_comp[1],equal_comp[0]);
     and1 and1(zero,branch,a5);
+
+    wire [31:0] readmemdata;
+
+    data_memory data_memory(ALUResult,ReadRegData2,readmemdata,clk,mem_r,mem_w,mem[2],mem[1:0]);
+
+    mux21 memmux(ALUResult,readmemdata,mem_reg,WriteRegData);
 
 
 
