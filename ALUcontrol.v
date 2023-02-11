@@ -10,7 +10,7 @@ module ALUcontrol (instr,alu_op,operation,ALU_En,equal_comp,mem);
 	wire [3:0] funct;
 	wire [2:0] funct3;
 	output [3:0] operation;
-	output reg [1:0] equal_comp;
+	output reg [1:0] equal_comp;//comparator enable,equal
 	output reg [2:0] mem;
 	//output wire flag_control;
 	

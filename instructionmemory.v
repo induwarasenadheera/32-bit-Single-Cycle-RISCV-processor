@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module InstrMem(addr, reset, instruction);
+module instructionmemory(addr, reset, instruction);
     
    input reset;
 	input [31:0] addr;
