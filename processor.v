@@ -44,7 +44,7 @@ module processor(clk,PCreset,Instruct);
     wire [3:0] operation;
     wire [1:0] equal_comp;
     wire [2:0] mem;
-    ALUcontrol ALUcontrol(Instruct,{ALU0,ALU1},operation,ALU_En,equal_comp,mem);
+    ALUcontrol ALUcontrol({Instruct[30],Instruct[14:12]},{ALU0,ALU1},operation,ALU_En,equal_comp,mem);
 
     wire zero;
     wire [31:0] ALUResult;
@@ -53,7 +53,7 @@ module processor(clk,PCreset,Instruct);
 
     wire [31:0] readmemdata;
 
-    data_memory data_memory(ALUResult,ReadRegData2,readmemdata,clk,mem_r,mem_w,mem[2],mem[1:0]);
+    datamemory datamemory(ALUResult,ReadRegData2,readmemdata,clk,mem_r,mem_w,mem[2],mem[1:0]);
 
     mux21 memmux(ALUResult,readmemdata,mem_reg,WriteRegData);
 

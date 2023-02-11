@@ -4,29 +4,28 @@
 // control: 4-bit
 // zero: output 1 if all bits of data output is 0
 module ALUcontrol (instr,alu_op,operation,ALU_En,equal_comp,mem);
-	input [31:0] instr;
+	input [3:0] instr;
 	input [1:0] alu_op;
 	input ALU_En;
 	wire [3:0] funct;
 	wire [2:0] funct3;
 	output [3:0] operation;
-	output reg [1:0] equal_comp;//comparator enable,equal
+	output reg [1:0] equal_comp;
 	output reg [2:0] mem;
 	//output wire flag_control;
 	
 	
 	reg [3:0] operation;
-	assign funct= {instr[14:12],instr[30]};
-	assign funct3 = {instr[14:12]};
+	assign funct= {instr[2:0],instr[3]};
+	assign funct3 = {instr[2:0]};
 	
-	always @ (instr)
+	always @ (*)
 	
 	begin
 		//flag_control={alu_op[0]}&{alu_op[1]};
 		if (ALU_En=='b0)
 		begin
-		equal_comp=2'b00;
-		mem=3'b000;
+		
 		case (alu_op)
 		2'b00: //Rtype
 			begin 
@@ -99,7 +98,7 @@ module ALUcontrol (instr,alu_op,operation,ALU_En,equal_comp,mem);
 				end
 			3'b101:
 			begin
-				if (instr[30]==0)
+				if (instr[3]==0)
 					operation <= 4'b1000;
 				else
 					operation <= 4'b1001;
