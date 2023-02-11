@@ -1,4 +1,3 @@
-`timescale 1ns/1ps
 
 /*ALU operations
 0000 - AND
@@ -16,25 +15,24 @@
 
 */
 
-module alu (ScrA,ScrB,OpCode,ALUResult,zero,Comparatorenable,equal_inequal);
-    parameter DATA_WIDTH = 32;
-    parameter OPCODE_LENFTH =4;
-    input  [DATA_WIDTH-1:0] ScrA;
-    input  [DATA_WIDTH-1:0] ScrB;
-    input  [OPCODE_LENFTH-1:0] OpCode;
+module alu (ScrA,ScrB,ALU_opcode,ALUResult,zero,Comparatorenable,equal_inequal);
 
-    output reg [DATA_WIDTH-1:0] ALUResult;
-	output  reg zero;
+    input  [31:0] ScrA;
+    input  [31:0] ScrB;
+    input  [3:0] ALU_opcode;
     input  equal_inequal;
     input  Comparatorenable;
+    output reg [31:0] ALUResult;
+	 output  reg zero;
+
     
 
-always @ (OpCode or ScrA or ScrB)
+always @ (ALU_opcode or ScrA or ScrB)
 begin
     ALUResult='d0;
     zero='b0;
 
-    case(OpCode)
+    case(ALU_opcode)
     4'b0000: begin//AND 
         ALUResult = ScrA & ScrB;
     end

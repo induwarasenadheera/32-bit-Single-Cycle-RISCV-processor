@@ -1,122 +1,25 @@
-`timescale 1ns/1ps
 
-module controller(inSrc,reg_w,mem_w,mem_r,branch,ALUSRC,ALU0,ALU1,J_Type,ALU_En,mem_reg);
-    input [6:0] inSrc;
-    output reg  reg_w,mem_r,mem_w,branch,ALUSRC,ALU0,ALU1,J_Type,ALU_En,mem_reg;
-always @ (inSrc)
-begin
-    case(inSrc)
-    7'b0110011://Rtype
-    begin
-        reg_w <='b1;
-        mem_w <='b0;
-        mem_r <='b0;
-        branch<='b0;
-        ALUSRC<='b0;
-        ALU0  <='b0;
-        ALU1  <='b0;
-        J_Type<='b0;
-        ALU_En<='b0;
-        mem_reg<='b0;
-    end
+module controller(Opcode,RegWrite, MemWrite, MemRead, Branch, ALUSrc, Aluop,jump, ALU_En, mem_reg);
+    input [6:0] Opcode;
+	 output wire [1:0] Aluop;
+	 output wire RegWrite, MemWrite, MemRead, Branch, ALUSrc,jump, ALU_En, mem_reg;
+    reg [9:0] control_signal;
+    wire Alu0, Alu1;
+    assign {RegWrite, MemWrite, MemRead, Branch, ALUSrc, Alu0, Alu1,jump, ALU_En, mem_reg} = control_signal;
+	 assign Aluop={Alu0, Alu1};
 
-    7'b0010011://I type arithmatic and logical
-    begin
-        reg_w <='b1;
-        mem_w <='b0;
-        mem_r <='b0;
-        branch<='b0;
-        ALUSRC<='b1;
-        ALU0  <='b0;
-        ALU1  <='b1;
-        J_Type<='b0;
-        ALU_En<='b0;
-        mem_reg<='b0;
+  always @(*)
+	begin
+		case(Opcode)
+			7'b0110011 : control_signal <= 10'b1000000000; // R-type
+			7'b0000011 : control_signal <= 10'b1010110000; // I-type load
+			7'b0010011 : control_signal <= 10'b1000101000; // I-type imm
+			7'b0100011 : control_signal <= 10'b0100110001; // s-type
+			7'b1100011 : control_signal <= 10'b0001011000; // sb-type
+			7'b1101111 : control_signal <= 10'b10001xx110; // jal-type
+			7'b0110111 : control_signal <= 10'b10001xx010; // lui-type
+			7'b0010111 : control_signal <= 10'b00000xx010; // auipc-type
+			default : control_signal <= 10'bxxxxxxxxxx;
+      endcase
     end
-    7'b0000011:// Load
-    begin
-        reg_w <='b1;
-        mem_w <='b0;
-        mem_r <='b1;
-        branch<='b0;
-        ALUSRC<='b1;
-        ALU0  <='b1;
-        ALU1  <='b0;
-        J_Type<='b0;
-        ALU_En<='b0;
-        mem_reg<='b0;
-    end
-    7'b0100011://Store
-    begin
-        reg_w <='b0;
-        mem_w <='b1;
-        mem_r <='b0;
-        branch<='b0;
-        ALUSRC<='b1;
-        ALU0  <='b1;
-        ALU1  <='b0;
-        J_Type<='b0;
-        ALU_En<='b0;
-        mem_reg<='b1;
-    end
-    7'b1100011://Branch
-    begin
-        reg_w <='b0;
-        mem_w <='b0;
-        mem_r <='b0;
-        branch<='b1;
-        ALUSRC<='b0;
-        ALU0  <='b1;
-        ALU1  <='b1;
-        J_Type<='b0;
-        ALU_En<='b0;
-        mem_reg<='b0;
-    end
-    7'b1101111://Jump and Link
-    begin
-        reg_w <='b1;
-        mem_w <='b0;
-        mem_r <='b0;
-        branch<='b1;
-        ALUSRC<='b0;
-        J_Type<='b1;
-        ALU_En<='b1;
-        mem_reg<='b0;
-    end
-    7'b0110111://Lui
-    begin
-        reg_w <='b1;
-        mem_w <='b0;
-        mem_r <='b0;
-        branch<='b0;
-        ALUSRC<='b1;
-        J_Type<='b0;
-        ALU_En<='b1;
-        mem_reg<='b0;
-    end
-    7'b0010111:
-    begin
-        reg_w <='b1;
-        mem_w <='b0;
-        mem_r <='b0;
-        branch<='b0;
-        ALUSRC<='b0;
-        J_Type<='b0;
-        ALU_En<='b1;
-        mem_reg<='b0;
-        end
-
-    default:
-    begin
-        reg_w <='b0;
-        mem_w <='b0;
-        mem_r <='b0;
-        branch<='b0;
-        ALUSRC<='b0;
-        J_Type<='b0;
-        ALU_En<='b1;
-        mem_reg<='b0;
-    end
-endcase
-end
 endmodule

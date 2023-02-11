@@ -1,9 +1,8 @@
-`timescale 1ns / 1ps
 module instructionmemory(addr, reset, instruction);
     
-   input reset;
+    input reset;
 	input [31:0] addr;
-	output [31:0] instruction;
+	output reg [31:0] instruction;
 	reg [31:0] Imem [31:0];
 	
 	integer i;
@@ -12,8 +11,11 @@ module instructionmemory(addr, reset, instruction);
 
 	always @(posedge reset) begin
 
-        Imem[1] <= 32'b0000000_01010_00000_000_00100_0010011;   //      ADDI x4, x0, 10                                                                                        //sort : 
-        Imem[2] <= 32'b0000001_00000_00100_000_11100_1100011;   //      BEQ x4, x0, Load
+
+        //Imem[1] <= 32'b0000000_01010_00000_000_00100_0010011;   //      ADDI x4, x0, 10                                                                                        //sort : 
+        Imem[0] <= 32'h0000_0000;   //      BEQ x4, x0, Load
+		Imem[1] <= 32'h01088933;   //      add x18 , x17, x16                                                                                        //sort : 
+        Imem[2] <= 32'h00f80933;   //      add x18 , x16, x15
         Imem[3] <= 32'b1111111_11111_00100_000_00100_0010011;   //      ADDI x4, x4, -1
         Imem[4] <= 32'b0000001_00100_00000_000_00101_0010011;   //      ADDI x5, x0, 36
         Imem[5] <= 32'b1111111_11100_00101_000_00110_0010011;   //      ADDI x6, x5, -4                                                                                      //Itr : 
@@ -38,12 +40,14 @@ module instructionmemory(addr, reset, instruction);
         Imem[24] <= 32'b0000001_00000_00000_010_01001_0000011;   //      LW x9, 32(x0)
         Imem[25] <= 32'b0000001_00100_00000_010_01010_0000011;   //      LW x10, 36(x0)
         
-	for (i = 26; i < 31; i = i + 1) begin
-            Imem[i] <= 32'h0000_0000;
+	     for (i = 26; i < 31; i = i + 1) begin
+            Imem[i] = 32'h0000_0000;
         end
     end
     
-	 assign instruction = Imem[shifted_addr];
+  always@(*)begin
+    instruction = Imem[shifted_addr];
+  end
 
 
 endmodule
