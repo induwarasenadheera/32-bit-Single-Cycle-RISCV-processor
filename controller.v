@@ -11,7 +11,7 @@ module controller(Opcode,RegWrite, MemWrite, MemRead, Branch, ALUSrc, Aluop,jump
   always @(*)
 	begin
 		case(Opcode)
-			7'b0110011 : control_signal <= 10'b1000000000; // R-type
+			7'b0110011 : control_signal <= 10'b1000000000; // R-type 
 			7'b0000011 : control_signal <= 10'b1010110000; // I-type load
 			7'b0010011 : control_signal <= 10'b1000101000; // I-type imm
 			7'b0100011 : control_signal <= 10'b0100110001; // s-type

@@ -6,16 +6,18 @@ module datamemory (addr, write_data, read_data, clk, mem_read, mem_write, DATA_M
    input [2:0] DATA_MEM_In;
    output reg [31:0] read_data;
 
-  reg [31:0] dmemory [64:0];
+   reg [31:0] dmemory [64:0];
    reg [31:0] write_data_in;
 
-  wire [5:0] shifted_addr;
+   wire [5:0] shifted_addr;
    wire [2:0] DATA_MEM_In;
    wire [31:0] DATA;
 
   assign shifted_addr = addr[5:0];
 
-   //assign DATA = dmemory[addr];
+  //assign DATA = dmemory[addr];
+	
+	
 
    always @(posedge clk)
    begin
@@ -59,7 +61,5 @@ module datamemory (addr, write_data, read_data, clk, mem_read, mem_write, DATA_M
                end
                endcase
            end
-
-   end
-
+		end	
 endmodule

@@ -27,7 +27,7 @@ module inst_decoder(
 						rd = instruction[11:7];
 						rs1 = instruction[19:15];
 						rs2 = instruction[24:20];
-						imm = $signed(instruction[11:0]);
+						imm = $signed({instruction[31:20], 20'b0}) >>> 20;
 						func = {instruction[14:12],instruction[30]};
 				end
 			
@@ -36,7 +36,7 @@ module inst_decoder(
 						rd = instruction[11:7];
 						rs1 = instruction[19:15];
 						rs2 = 5'hx;
-						imm = $signed(instruction[11:0]);	
+						imm = $signed({instruction[31:20], 20'b0}) >>> 20;	
 						func = {instruction[14:12],instruction[30]};
 
 				end		
@@ -47,7 +47,7 @@ module inst_decoder(
 						rd = instruction[11:7];
 						rs1 = instruction[19:15];
 						rs2 = instruction[24:20];
-						imm = $signed({instruction[11:5],instruction[4:0]});	
+						imm = $signed({instruction[31:25], instruction[11:7], 20'b0}) >>> 20;	
 						func = {instruction[14:12],instruction[30]};
 						
 				end
@@ -58,7 +58,7 @@ module inst_decoder(
 						rd = 5'hx;
 						rs1 = instruction[19:15];
 						rs2 = instruction[24:20];
-						imm = $signed({instruction[12],instruction[10:5],instruction[4:1],instruction[11]});	
+						imm = $signed({instruction[31], instruction[7], instruction[30:25], instruction[11:8], 20'b0}) >>> 19;	
 						func = {instruction[14:12],instruction[30]};
 						
 				end
@@ -93,6 +93,13 @@ module inst_decoder(
 						imm = $signed(instruction[31:12]);
 						func = 4'hx;
 				end
+			default: begin
+			         rd = 5'hx;
+						rs1 = 5'hx;
+						rs2 = 5'hx;
+						imm = 32'hx;
+						func = 4'hx;
+			end
 			
 			
 		endcase

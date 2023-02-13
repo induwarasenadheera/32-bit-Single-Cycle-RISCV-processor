@@ -1,0 +1,17 @@
+module Clock_divider(seconds,clk);
+
+output reg seconds;
+input clk; 
+reg [26:0] count;
+
+always @(posedge clk)
+begin
+    if (count == 27'd50_000_000) begin 
+        count   <= 0;
+        seconds <= ~seconds;
+    end else begin
+        count   <= count + 1'b1;    
+    end 
+end
+
+endmodule
